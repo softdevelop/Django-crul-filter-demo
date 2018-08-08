@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card ">
+	<div class="card-header">
+		<h1 style="display: inline;">Change User</h1>
+	</div>
+	<div class="card-body">
+		 <div class="list-group-item">
+			<form method="post">{% csrf_token %}
+
+				<div class="form-group row">
+					<label for="id_name" class="col-sm-2 col-form-label">Name (*):</label>
+					<div class="col-sm-5">
+						{{ form.name }}
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="id_name" class="col-sm-2 col-form-label">Sex (*):</label>
+					<div class="col-sm-5">
+						{{ form.sex }}
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="id_name" class="col-sm-2 col-form-label">Age (*):</label>
+					<div class="col-sm-5">
+						{{ form.age }}
+					</div>
+				</div>
+			   		<div class="col align-self-end offset-md-9">
+						<input type="submit" class="btn btn-info mb-2 " value="Update">
+						<a class="btn btn-info mb-2 " href="{%url 'home-page'%}">Cancel</a> 
+					</div>
+			</form> 
+		</div>
+	</div>
+</div>
+{% endblock %}

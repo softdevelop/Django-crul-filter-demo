@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load extra_tag %}
+{% block content %}
+<div class="card ">
+	<div class="card-header">
+		<h1 style="display: inline;"><a href="/" style="color:#18bc9c">User information</a></h1>
+		<a href='{% url "user_create" %}' class="btn btn-info float-right">Add new</a>
+	</div>
+	<div class="card-body">
+		  <div class="list-group-item" style="background:#18bc9c">
+		    <div class="feature">
+		    	<h4>Filter:</h4>
+		    	<div class="row" >
+		    		<div class="col-md-6">
+		    			<h6>By sex:</h6>
+				    	
+						  <div class="btn-group">
+						  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    {% if sex %} {{sex | view_sex}} {% else %} Choose one {% endif %}
+						  </button>
+						  <div class="dropdown-menu">
+						    {% for val,key in const_sex %}
+							   <a class="dropdown-item" href="{% if 'sex' not in request.get_full_path %}{% if not request.get_full_path == '/' %}{{request.get_full_path}}&{% else %}?{% endif %}sex={{val}}{% else %}{{request.get_full_path| replace_path:'sex'}}&sex={{val}}{% endif %}">{{key}}</a>
+							{% endfor %}
+						  </div>
+						</div>
+		    		</div>
+		    		<div class="col-md-6">
+						<h6>By age:</h6>
+						<div class="input-group" >
+						<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    {% if age %} {{age}} {% else %} Choose one {% endif %}
+						  </button>
+						  <div class="dropdown-menu">
+						    {% for val in const_age %}
+							   <a class="dropdown-item" href="{% if 'age' not in request.get_full_path %}{% if not request.get_full_path == '/' %}{{request.get_full_path}}&{% else %}?{% endif %}age={{val}}{% else %}{{request.get_full_path| replace_path:'age'}}age={{val}}{% endif %}">{{val}}</a>
+							{% endfor %}
+						  </div>
+						</div>
+					</div>
+		    	</div>
+		    	
+		    </div>
+		  </div>
+		  <div class="list-group-item ">
+		  	<table class="table table-hover">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col"><a href="?sort={{ sort|order_by:'name'}}">Name</a></th>
+				      <th scope="col"><a href="?sort={{ sort|order_by:'sex'}}">Sex</a></th>
+				      <th scope="col"><a href="?sort={{ sort|order_by:'age'}}">Age</a></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	{% for user in users %}
+				    <tr onclick="window.location='{% url 'edit-page' pk=user.id %}';">
+				      <th scope="row">{{user.id}}</th>
+				      <td>{{user.name | verbose_name}}</td>
+				      <td>{{user.sex | view_sex}}</td>
+				      <td>{{user.age}}</td>
+				    </tr>
+				   	{% endfor %}
+				  </tbody>
+				</table>
+		  </div>
+		
+		
+	</div>
+</div>
+{% endblock %}
